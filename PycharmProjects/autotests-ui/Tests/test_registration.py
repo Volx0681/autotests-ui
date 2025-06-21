@@ -26,7 +26,6 @@ def test_successful_registration():
         page.wait_for_url('**/#/dashboard')
 
         context.storage_state(path="browser-state.json")
-
         browser.close()
 
         browser = playwright.chromium.launch(headless=False)

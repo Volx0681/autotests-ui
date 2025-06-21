@@ -5,6 +5,7 @@ import pytest
 @pytest.mark.regression
 def test_empty_courses_list():
     with sync_playwright() as playwright:
+        # Первая сессия: регистрация пользователя
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
@@ -20,11 +21,9 @@ def test_empty_courses_list():
         registration_password_input.fill('password')
 
         page.locator('button:has-text("Registration")').click()
-
         page.wait_for_url('**/#/dashboard')
 
         context.storage_state(path="browser-state.json")
-
         browser.close()
 
         browser = playwright.chromium.launch(headless=False)
