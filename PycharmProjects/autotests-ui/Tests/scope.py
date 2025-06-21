@@ -1,0 +1,3 @@
+import...
+
+_$scopeName = Literal["session" , "package", "module" , "class" , "function"]
