@@ -1,15 +1,15 @@
 from playwright.sync_api import sync_playwright, expect
+import pytest
 
+@pytest.mark.courses
 @pytest.mark.regression
-@pytest.mark.registration
 def test_successful_registration():
     with sync_playwright() as playwright:
 
         browser = playwright.chromium.launch(headless=False)
-
         context = browser.new_context()
-
         page = context.new_page()
+
         page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
 
         registration_email_input = page.locator('[data-testid="registration-form-email-input"] input')
@@ -30,10 +30,9 @@ def test_successful_registration():
         browser.close()
 
         browser = playwright.chromium.launch(headless=False)
-
         context = browser.new_context(storage_state="browser-state.json")
-
         page = context.new_page()
+
         page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
         page.wait_for_load_state("domcontentloaded")
 
