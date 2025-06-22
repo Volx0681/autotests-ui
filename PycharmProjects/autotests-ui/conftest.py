@@ -15,7 +15,5 @@ def pytest_configure(config):
 def chromium_page() -> Page:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
-        return page
+        yield browser.new_page()
 

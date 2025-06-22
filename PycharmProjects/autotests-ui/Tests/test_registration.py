@@ -4,8 +4,8 @@ import pytest
 @pytest.mark.courses
 @pytest.mark.regression
 def test_successful_registration():
-    with sync_playwright() as playwright:
 
+    with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
