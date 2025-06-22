@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.courses
 @pytest.mark.regression
-def test_empty_courses_list(chromium_page):
+def test_empty_courses_list_old(chromium_page):
     chromium_page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
 
     email_input = chromium_page.locator('[data-testid="registration-form-email-input"] input')
