@@ -22,5 +22,5 @@ class LoginPage(BasePage):
         self.page.wait_for_load_state("networkidle")
 
     def check_visible_wrong_email_or_password_alert(self):
-        expect(self.wrong_email_or_password_alert).to_be_visible(timeout=10000)
+        expect(self.wrong_email_or_password_alert).to_be_visible
         expect(self.wrong_email_or_password_alert).to_have_text("Wrong email or password")
