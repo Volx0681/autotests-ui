@@ -2,22 +2,6 @@ import pytest
 from playwright.sync_api import Playwright, Page
 
 def pytest_configure(config):
-
-    markers = [
-        "courses: тесты для работы с курсами",
-        "regression: регрессионные тесты",
-        "smoke: смок тесты",
-        "api: тесты API",
-        "ui: UI-тесты",
-        "critical: критические тесты",
-        "auth: тесты авторизации",
-        "slow: медленные тесты"
-    ]
-
-    for marker in markers:
-        config.addinivalue_line("markers", marker)
-
-def pytest_configure(config):
     config.addinivalue_line("markers", "courses: тесты для работы с курсами")
     config.addinivalue_line("markers", "regression: регрессионные тесты")
     config.addinivalue_line("markers", "smoke: смок тесты")
