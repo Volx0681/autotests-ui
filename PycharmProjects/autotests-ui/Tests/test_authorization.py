@@ -1,44 +1,27 @@
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import expect
 import pytest
 
 @pytest.mark.courses
 @pytest.mark.regression
-def test_successful_registration():
-    with sync_playwright() as playwright:
+@pytest.mark.parametrize("email, password", [
+    ("user.name@gmail.com", "password"),
+    ("user.name@gmail.com", "  "),
+    ("  ", "password")
+])
+def test_wrong_email_or_password_authorization(chromium_page, email, password):
+    page = chromium_page
 
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
+    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
 
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
+    email_input = page.get_by_test_id('login-form-email-input').locator('input')
+    email_input.fill(email)
 
-        registration_email_input = page.locator('[data-testid="registration-form-email-input"] input')
-        registration_password_input = page.locator('[data-testid="registration-form-password-input"] input')
-        registration_username_input = page.locator('[data-testid="registration-form-username-input"] input')
+    password_input = page.get_by_test_id('login-form-password-input').locator('input')
+    password_input.fill(password)
 
-        registration_email_input.fill('user.name@gmail.com')
-        registration_username_input.fill('username')
-        registration_password_input.fill('password')
+    login_button = page.get_by_test_id('login-page-login-button')
+    login_button.click()
 
-        registration_button = page.locator('button:has-text("Registration")')
-        registration_button.click()
-
-        page.wait_for_url('**/#/dashboard')
-
-        context.storage_state(path="browser-state.json")
-        browser.close()
-
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context(storage_state="browser-state.json")
-        page = context.new_page()
-
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
-        page.wait_for_load_state("domcontentloaded")
-
-        courses_heading = page.locator('[data-testid="courses-list-toolbar-title-text"]')
-        expect(courses_heading).to_be_visible()
-
-        no_results_heading = page.locator('[data-testid="courses-list-empty-view-title-text"]')
-        expect(no_results_heading).to_be_visible()
-
-        browser.close()
+    wrong_email_or_password_alert = page.get_by_test_id('login-page-wrong-email-or-password-alert')
+    expect(wrong_email_or_password_alert).to_be_visible()
+    expect(wrong_email_or_password_alert).to_have_text("Wrong email or password")
