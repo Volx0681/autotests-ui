@@ -1,4 +1,4 @@
-from playwright.sync_api import expect
+from playwright.sync_api import expect, Page
 import pytest
 
 @pytest.mark.courses
@@ -8,7 +8,12 @@ import pytest
     ("user.name@gmail.com", "  "),
     ("  ", "password")
 ])
-def test_wrong_email_or_password_authorization(chromium_page, email, password):
+def test_wrong_email_or_password_authorization(
+    chromium_page: Page,
+    email: str,
+    password: str
+) -> None:
+
     page = chromium_page
 
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")

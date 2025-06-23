@@ -1,14 +1,16 @@
-pytest_plugins =("fixtures.browsers")
-import pytest
-from playwright.sync_api import Playwright, Page
-pytest
-
+pytest_plugins = ("fixtures.browsers",)
 def pytest_configure(config):
-    config.addinivalue_line("markers", "courses: тесты для работы с курсами")
-    config.addinivalue_line("markers", "regression: регрессионные тесты")
-    config.addinivalue_line("markers", "smoke: смок тесты")
-    config.addinivalue_line("markers", "api: тесты API")
-    config.addinivalue_line("markers", "ui: UI-тесты")
-    config.addinivalue_line("markers", "critical: критические тесты")
-    config.addinivalue_line("markers", "auth: тесты авторизации")
-    config.addinivalue_line("markers", "slow: медленные тесты")
+
+    markers = [
+        "courses: тесты для работы с курсами",
+        "regression: регрессионные тесты",
+        "smoke: смок тесты",
+        "api: тесты API",
+        "ui: UI-тесты",
+        "critical: критические тесты",
+        "auth: тесты авторизации",
+        "slow: медленные тесты"
+    ]
+
+    for marker in markers:
+        config.addinivalue_line("markers", marker)

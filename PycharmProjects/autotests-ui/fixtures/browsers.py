@@ -1,5 +1,5 @@
 import pytest
-from playwright.sync_api import Playwright, Page
+from playwright.sync_api import Playwright, sync_playwright, Page
 
 @pytest.fixture
 def chromium_page(playwright: Playwright) -> Page:
