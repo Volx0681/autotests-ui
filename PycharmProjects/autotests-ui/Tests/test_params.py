@@ -21,24 +21,26 @@ def browser(request):
 def test_open_browser(browser: str):
     print("running open_browser: {browser}")
 
-@pytest.mark.parametrize("user", ["Alice", "Zara"])
-class test_operations():
+class TestOperations:
 
     @pytest.mark.parametrize("account", ["credit card", "debit card"])
     def test_user_withoperations(self, user: str, account: str):
         print("running test_user_withoperations")
 
-    def test_user_withoutoperations(self, user: str, account: str):
+    def test_user_withoutoperations(self, user: str):
         print("running test_user_withoutoperations")
 
 
-users { "+74951385921": "rich user" ,
-"+78163254496": "poor user" ,
-"+75132585698": "user withoperations",
+users = {
+    "+74951385921": "rich user",
+    "+78163254496": "poor user",
+    "+75132585698": "user withoperations",
 }
 
-@pytest.mark.parametrize("callnumber", ["+74951385921", "+78163254496","+75132585698"],
-                         users.keys(),
-                         ids=lambda phone_number: f" {phone_number}: {users[phone_number]})"
+@pytest.mark.parametrize(
+    "callnumber",
+    ["+74951385921", "+78163254496", "+75132585698"],
+    ids=lambda phone_number: f"{phone_number}: {users[phone_number]}"
+)
 def test_identifiers(callnumber: str):
-    ...
+    pass
