@@ -1,4 +1,8 @@
 pytest_plugins = ("fixtures.browsers",)
+
+import sys
+sys.path.insert(0, "C:/Users/silen/PycharmProjects/autotests-ui")
+
 def pytest_configure(config):
 
     markers = [
