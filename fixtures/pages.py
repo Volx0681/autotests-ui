@@ -1,20 +1,18 @@
 import pytest
 from playwright.sync_api import Page
-from pages.registration_page import RegistrationPage
-from pages.dashboard_page import DashboardPage
+from pages.create_course_page import CreateCoursePage
+from pages.courses_list_page import CoursesListPage
 
-@pytest.fixture(scope='function')
-def registration_page(page: Page) -> RegistrationPage:
-    return RegistrationPage(page)
-
-@pytest.fixture(scope='function')
-def dashboard_page(page: Page) -> DashboardPage:
-    return DashboardPage(page)
-
-@pytest.fixture(scope='function')
-def courses_list_page(chromium_page_with_state: Page) -> CoursesListPage:
-    return CoursesListPage(page=chromium_page_with_state)
 
 @pytest.fixture
 def create_course_page(chromium_page_with_state: Page) -> CreateCoursePage:
-    return CreateCoursePage(page=chromium_page_with_state)
+    return CreateCoursePage(chromium_page_with_state)
+
+
+@pytest.fixture
+def courses_list_page(chromium_page_with_state: Page) -> CoursesListPage:
+    return CoursesListPage(chromium_page_with_state)
+
+@pytest.fixture
+def course_image_file() -> str:
+    return "testdata/files/image.png"

@@ -49,3 +49,7 @@ def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -
     page = context.new_page()
     yield page
     browser.close()
+
+@pytest.fixture
+def course_image_file():
+    return "testdata/files/image.png"
