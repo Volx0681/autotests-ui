@@ -9,4 +9,4 @@ def test_successful_registration(page: Page, registration_page: RegistrationPage
     registration_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
     registration_page.fill_registration_form_inputs("test@example.com", "password123", "testuser")
     registration_page.click_registration_form_button()
-    dashboard_page.verify_dashboard_title_visible()
+    dashboard_page.check_visible_dashboard_title()
