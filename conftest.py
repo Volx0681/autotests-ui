@@ -1,10 +1,10 @@
+import pytest
+from pathlib import Path
+from playwright.sync_api import Playwright, Page
+
 pytest_plugins = [
     "fixtures.pages"
 ]
-
-
-import pytest
-from playwright.sync_api import Playwright, Page
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "courses: тесты для работы с курсами")
@@ -52,4 +52,4 @@ def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -
 
 @pytest.fixture
 def course_image_file():
-    return "testdata/files/image.png"
+    return r"C:\Users\silen\PycharmProjects\autotests-ui\testdata\files\image.png"
