@@ -52,4 +52,4 @@ def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -
 
 @pytest.fixture
 def course_image_file():
-    return r"C:\Users\silen\PycharmProjects\autotests-ui\testdata\files\image.png"
+    return str(Path(__file__).parent / "testdata" / "files" / "image.png")
