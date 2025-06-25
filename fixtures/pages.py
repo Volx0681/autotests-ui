@@ -10,3 +10,7 @@ def registration_page(page: Page) -> RegistrationPage:
 @pytest.fixture(scope='function')
 def dashboard_page(page: Page) -> DashboardPage:
     return DashboardPage(page)
+
+@pytest.fixture(scope='function')
+def courses_list_page(chromium_page_with_state: Page) -> CoursesListPage:
+    return CoursesListPage(page=chromium_page_with_state)
