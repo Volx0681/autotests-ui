@@ -53,3 +53,19 @@ def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -
 @pytest.fixture
 def course_image_file():
     return str(Path(__file__).parent / "testdata" / "files" / "image.png")
+
+@pytest.fixture
+def dashboard_page(chromium_page_with_state):
+    dashboard = DashboardPage(chromium_page_with_state)
+    dashboard.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard")
+    return dashboard
+
+@pytest.fixture
+def courses_list_page(chromium_page_with_state):
+    courses = CoursesListPage(chromium_page_with_state)
+    courses.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    return courses
+
+@pytest.fixture
+def create_course_page(chromium_page_with_state):
+    return CreateCoursePage(chromium_page_with_state)

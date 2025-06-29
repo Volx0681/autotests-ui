@@ -5,7 +5,7 @@ import random
 @pytest.mark.flaky(reruns=2, reruns_delay=5)
 @pytest.mark.courses
 @pytest.mark.regression
-def test_empty_courses_list(chromium_page_with_state: Page):
+def test_empty_rerun_list(chromium_page_with_state: Page):
     assert random.choice({True, False})
 
     page = chromium_page_with_state
