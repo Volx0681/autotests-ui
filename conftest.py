@@ -1,21 +1,14 @@
+# conftest.py
+
 import pytest
 from pathlib import Path
 from playwright.sync_api import Playwright, Page
+from pages.registration_page import RegistrationPage
+from pages.dashboard_page import DashboardPage
+from pages.courses_list_page import CoursesListPage
+from pages.create_course_page import CreateCoursePage
 
-pytest_plugins = [
-    "fixtures.pages"
-]
-
-def pytest_configure(config):
-    config.addinivalue_line("markers", "courses: тесты для работы с курсами")
-    config.addinivalue_line("markers", "regression: регрессионные тесты")
-    config.addinivalue_line("markers", "smoke: смок тесты")
-    config.addinivalue_line("markers", "api: тесты API")
-    config.addinivalue_line("markers", "ui: UI-тесты")
-    config.addinivalue_line("markers", "critical: критические тесты")
-    config.addinivalue_line("markers", "authorization: тесты авторизации")
-    config.addinivalue_line("markers", "slow: медленные тесты")
-
+# Фикстура для запуска браузера
 @pytest.fixture
 def chromium_page(playwright: Playwright) -> Page:
     browser = playwright.chromium.launch(headless=False)
@@ -24,24 +17,23 @@ def chromium_page(playwright: Playwright) -> Page:
     yield page
     browser.close()
 
+# Инициализация состояния браузера (сессия для зарегистрированного пользователя)
 @pytest.fixture(scope="session")
-def initialize_browser_state(playwright):
+def initialize_browser_state(playwright: Playwright):
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
+    # выполняем регистрацию стандартным пользователем
     page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
-    email_input = page.locator('[data-testid="registration-form-email-input"] input')
-    username_input = page.locator('[data-testid="registration-form-username-input"] input')
-    password_input = page.locator('[data-testid="registration-form-password-input"] input')
-    register_button = page.locator('button:has-text("Registration")')
-    email_input.fill('user.name@gmail.com')
-    username_input.fill('username')
-    password_input.fill('password')
-    register_button.click()
-    page.wait_for_url('**/#/dashboard')
+    page.locator('[data-testid="registration-form-email-input"] input').fill('user.name@gmail.com')
+    page.locator('[data-testid="registration-form-username-input"] input').fill('username')
+    page.locator('[data-testid="registration-form-password-input"] input').fill('password')
+    page.locator('button:has-text("Registration")').click()
+    page.wait_for_url("**/#/dashboard")
     context.storage_state(path="browser-state.json")
     browser.close()
 
+# Фикстура для страницы с сохранённым состоянием
 @pytest.fixture
 def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -> Page:
     browser = playwright.chromium.launch(headless=False)
@@ -50,22 +42,35 @@ def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -
     yield page
     browser.close()
 
+# Фикстуры страниц
 @pytest.fixture
-def course_image_file():
-    return str(Path(__file__).parent / "testdata" / "files" / "image.png")
+def registration_page(chromium_page: Page) -> RegistrationPage:
+    registration = RegistrationPage(chromium_page)
+    registration.visit(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
+    )
+    return registration
 
 @pytest.fixture
-def dashboard_page(chromium_page_with_state):
+def dashboard_page(chromium_page_with_state: Page) -> DashboardPage:
     dashboard = DashboardPage(chromium_page_with_state)
-    dashboard.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard")
+    dashboard.visit(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard"
+    )
     return dashboard
 
 @pytest.fixture
-def courses_list_page(chromium_page_with_state):
+def courses_list_page(chromium_page_with_state: Page) -> CoursesListPage:
     courses = CoursesListPage(chromium_page_with_state)
-    courses.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
+    courses.visit(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
+    )
     return courses
 
 @pytest.fixture
-def create_course_page(chromium_page_with_state):
+def create_course_page(chromium_page_with_state: Page) -> CreateCoursePage:
     return CreateCoursePage(chromium_page_with_state)
+
+@pytest.fixture
+def course_image_file():
+    return str(Path(__file__).parent / "testdata" / "files" / "image.png")

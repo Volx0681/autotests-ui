@@ -1,21 +1,17 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 from .base_page import BasePage
+from components.authentication.registration_form_component import RegistrationFormComponent
 
 class RegistrationPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.input_registration_form_email = page.locator('[data-testid="registration-form-email-input"] input')
-        self.input_registration_form_password = page.locator('[data-testid="registration-form-password-input"] input')
-        self.input_registration_form_username = page.locator('[data-testid="registration-form-username-input"] input')
-        self.button_registration_form_submit = page.locator('button:has-text("Registration")')
+        self.registration_form = RegistrationFormComponent(page)
+
+    def visit(self, url: str):
+        self.page.goto(url)
 
     def fill_registration_form_inputs(self, email: str, password: str, username: str):
-        self.input_registration_form_email.fill(email)
-        self.input_registration_form_password.fill(password)
-        self.input_registration_form_username.fill(username)
-        expect(self.input_registration_form_email).to_have_value(email)
-        expect(self.input_registration_form_password).to_have_value(password)
-        expect(self.input_registration_form_username).to_have_value(username)
+        self.registration_form.fill(email, username, password)
 
     def click_registration_form_button(self):
-        self.button_registration_form_submit.click()
+        self.registration_form.submit_button.click()
