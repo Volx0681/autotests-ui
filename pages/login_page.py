@@ -1,5 +1,3 @@
-# pages/login_page.py
-
 from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
 from components.authentication.login_form_component import LoginFormComponent
